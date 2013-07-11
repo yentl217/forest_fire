@@ -1,9 +1,11 @@
 #include <iostream>
-#include <vector>
-#include <fstream>
 #include <cstdlib>
 #include <cmath>
 #include <time.h>
+#include <vector>
+#include <fstream>
+#include "matrix_reader.cpp"
+
 using namespace std;
 
 //TODO separate matrix reader part from simulation part
@@ -66,36 +68,20 @@ int main()
 {
 	srand (time(NULL)); //Initialise random seed
 	
-	//create two forests -array of booleans
-	//TODO change vector to array at end
+	//Set up reading in matrix from input file
 	ifstream input_file("input"); //TODO check file has opened without error
 	string str;
 	char c = 'h';
-	//create two copies of the forest, named forest and gump
 	int *forest_temp;
 	int *gump_temp;
+
+	//create two copies of the forest, named forest and gump
+	//They are vectors of pointers to integer arrays containing the entries for each row
 	vector<int *> forest;
 	vector<int *> gump;
 	
-	//Making forest and gump
-	while (c != EOF) // check if end of file has been reached
-	{
-		//read in one line of the matrix
-		getline(input_file,str,'\n');
-		//clear space for the line of the matrix for forest and gump
-		forest_temp = new int[str.length()];
-		gump_temp = new int[str.length()];
-		
-		for (int i =0; i < str.length(); i++) //puts string into 1D array
-		{
-			forest_temp[i] = int(str.at(i))-48; //Textfile -everything stored in ascii!
-			gump_temp[i] = forest_temp[i]; //copy data from forest into gump in same structure 
-		}
-		
-		forest.push_back(forest_temp); //put pointer to forest_temp into vector of 1D array addresses
-		gump.push_back(gump_temp); //puts pointer to gump_temp into vector of 1D array addresses
-		c = input_file.peek();
-	}
+	//read in matrix from input_file
+	matrix_reader(input_file,c,str,forest,gump,forest_temp,gump_temp);
 	
 	//main simulation loop
 	//TODO: make bitmap images...
