@@ -4,18 +4,20 @@
 #include <time.h>
 #include <vector>
 #include <fstream>
+#include <string>
 #include "matrix_reader.cpp"
+#include "cluster_count.cpp"
+#include "coord.h"
 
 using namespace std;
 
-//TODO separate matrix reader part from simulation part
 //Initialising
 int num_steps = 2;
 double prob_f = 1; //probability of tree NOT burning independent of neighbours
 double prob_g = 0; // probability of tree growing
 double prob_b = 0; //probability of a tree NOT setting a neighbour on fire if it is burning
 
-void one_step(vector<int *>& forest_record, vector<int *>& forest_modified, int width, int length)
+void one_step(vector<int *>& forest_record, vector<int *>& forest_modified, int length,int width)
 {
 	for (int y = 0; y<width; y++)
 	{
@@ -87,19 +89,15 @@ int main()
 	//TODO: make bitmap images...
 	int length = str.length();
 	int width = forest.size();
+	
 	for (int i = 0; i <num_steps; i+=2) //two steps per loop!
 	{
 		//first use gump as record, modify forest
 		one_step(gump,forest,length,width);
+		cluster_count(gump,length,width);
 		//then use forest as record, modify gump
 		one_step(forest,gump,length,width);
-	}
-	for (int y=0; y < width; y++)
-	{
-		for (int x=0; x<length; x++)
-		{
-			cout << gump[y][x] << endl;
-		}
+		cluster_count(forest,length,width);
 	}
 	return 0;
 } 		 

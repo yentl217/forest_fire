@@ -1,3 +1,6 @@
+#ifndef MATRIX_READER_CPP
+#define MATRIX_READER_CPP
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -25,4 +28,6 @@ void matrix_reader(ifstream& input_file, char& c, string& str, vector<int *>& fo
 		c = input_file.peek();
 	}
 }
+
+#endif
 	
