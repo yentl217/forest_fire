@@ -7,7 +7,7 @@
 #include "coord.h"
 using namespace std;
 
-void search_loop(vector<coord>& new_starts, coord start, int &cluster_size, vector<int *>& trees, int length, int width)
+void search_loop(vector<coord>& new_starts, coord start,vector<int *>& trees, int length, int width)
 //TODO:condense!
 {
 	int i =0;
@@ -23,7 +23,6 @@ void search_loop(vector<coord>& new_starts, coord start, int &cluster_size, vect
 			if (i == new_starts.size())
 			{
 				new_starts.push_back(coord(start.get_x()+1,start.get_y()));
-				cluster_size++;
 			}
 		}
 	}
@@ -41,7 +40,6 @@ void search_loop(vector<coord>& new_starts, coord start, int &cluster_size, vect
 			if (i == new_starts.size())
 			{
 				new_starts.push_back(coord(start.get_x()-1,start.get_y()));
-				cluster_size++;
 			}
 		}
 	}
@@ -59,7 +57,6 @@ void search_loop(vector<coord>& new_starts, coord start, int &cluster_size, vect
 			if (i == new_starts.size())
 			{
 				new_starts.push_back(coord(start.get_x(),start.get_y()+1));
-				cluster_size++;
 			}
 		}
 	}
@@ -77,7 +74,6 @@ void search_loop(vector<coord>& new_starts, coord start, int &cluster_size, vect
 			if (i == new_starts.size())
 			{
 				new_starts.push_back(coord(start.get_x(),start.get_y()-1));
-				cluster_size++;
 			}
 		}
 	}
@@ -101,15 +97,25 @@ void cluster_count(vector<int *> matrix,int length, int width)
 	}
 	while(positions.size() != 0)
 	{
+		//vector containing positions around which one searches to expand the cluster
 		vector<coord> new_starts;
-		int cluster_size = 1;
-		search_loop(new_starts,positions[0],cluster_size,matrix,length,width);
+		//vector containing positions already identified as part of the cluster
+		vector<coord> cluster;
+		
+		cluster.push_back(positions[0]);
+		search_loop(new_starts,positions[0],matrix,length,width);
+		
+		//set searched position to 0 to prevent research.
 		matrix[positions[0].get_y()][positions[0].get_x()] = 0;
+		//erase from positions matrix to prevent re-search
 		positions.erase(positions.begin());
+		
+		//continue until edge of cluster has been found
 		while(new_starts.size() !=0)
 		{
-			search_loop(new_starts,new_starts[0],cluster_size,matrix,length,width);
+			search_loop(new_starts,new_starts[0],matrix,length,width);
 			matrix[new_starts[0].get_y()][new_starts[0].get_x()] = 0;
+			cluster.push_back(new_starts[0]);
 			//erase from positions matrix
 			for (int i =0; i<positions.size();i++)
 			{
@@ -117,7 +123,7 @@ void cluster_count(vector<int *> matrix,int length, int width)
 			}
 			new_starts.erase(new_starts.begin());		
 		}
-		cout << cluster_size << endl;
+		cout << cluster.size() << endl;
 	}				
 		
 }				
