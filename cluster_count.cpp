@@ -26,6 +26,21 @@ void search_loop(vector<coord>& new_starts, coord start,vector<int *>& trees, in
 			}
 		}
 	}
+	else 
+	{
+		if (trees[start.get_y()][0] == 1)
+		{
+			while (i<new_starts.size())
+			{
+				if(new_starts[i] == coord(0,start.get_y())) break;
+				i++;
+			}
+			if (i==new_starts.size())
+			{
+				new_starts.push_back(coord(0,start.get_y()));
+			}
+		}
+	}
 	
 	if (start.get_x() != 0)
 	{
@@ -43,6 +58,22 @@ void search_loop(vector<coord>& new_starts, coord start,vector<int *>& trees, in
 			}
 		}
 	}
+	else 
+	{
+		if (trees[start.get_y()][length-1] == 1)
+		{
+			while (i<new_starts.size())
+			{
+				if(new_starts[i] == coord(length-1,start.get_y())) break;
+				i++;
+			}
+			if (i==new_starts.size())
+			{
+				new_starts.push_back(coord(length-1,start.get_y()));
+			}
+		}
+	}
+
 	
 	if (start.get_y() != width-1)
 	{
@@ -60,6 +91,21 @@ void search_loop(vector<coord>& new_starts, coord start,vector<int *>& trees, in
 			}
 		}
 	}
+	else 
+	{
+		if (trees[0][start.get_x()] == 1)
+		{
+			while (i<new_starts.size())
+			{
+				if(new_starts[i] == coord(start.get_x(),0)) break;
+				i++;
+			}
+			if (i==new_starts.size())
+			{
+				new_starts.push_back(coord(start.get_x(),0));
+			}
+		}
+	}
 	
 	if (start.get_y() != 0)
 	{
@@ -74,6 +120,21 @@ void search_loop(vector<coord>& new_starts, coord start,vector<int *>& trees, in
 			if (i == new_starts.size())
 			{
 				new_starts.push_back(coord(start.get_x(),start.get_y()-1));
+			}
+		}
+	}
+	else 
+	{
+		if (trees[width-1][start.get_x()] == 1)
+		{
+			while (i<new_starts.size())
+			{
+				if(new_starts[i] == coord(start.get_x(),width-1)) break;
+				i++;
+			}
+			if (i==new_starts.size())
+			{
+				new_starts.push_back(coord(start.get_x(),width-1));
 			}
 		}
 	}
