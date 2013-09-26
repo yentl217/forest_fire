@@ -8,140 +8,33 @@
 using namespace std;
 
 void search_loop(vector<coord>& new_starts, coord start,vector<int *>& trees, int length, int width)
-//TODO:condense!
 {
-	int i =0;
-	if (start.get_x() != length-1)
-	{
-		if (trees[start.get_y()][start.get_x()+1] == 1) 
-		{
-			while (i<new_starts.size())
-			{
-				if(new_starts[i] == coord(start.get_x()+1,start.get_y())) break;
-				i++;
-			}
-			if (i == new_starts.size())
-			{
-				new_starts.push_back(coord(start.get_x()+1,start.get_y()));
-			}
-		}
-	}
-	else 
-	{
-		if (trees[start.get_y()][0] == 1)
-		{
-			while (i<new_starts.size())
-			{
-				if(new_starts[i] == coord(0,start.get_y())) break;
-				i++;
-			}
-			if (i==new_starts.size())
-			{
-				new_starts.push_back(coord(0,start.get_y()));
-			}
-		}
-	}
+	int x_plus = start.get_x()+1;
+	if (x_plus == length) x_plus = 0;
+	int x_minus = start.get_x()-1;
+	if (x_minus == -1) x_minus = length-1;
+	int y_plus = start.get_y()+1;
+	if (y_plus == width) y_plus = 0;
+	int y_minus = start.get_y()-1;
+	if (y_minus == -1) y_minus = width-1;
 	
-	if (start.get_x() != 0)
+	coord current_searches[4] = {coord(x_plus,start.get_y()),coord(x_minus,start.get_y()),coord(start.get_x(),y_plus),coord(start.get_x(),y_minus)};
+	
+	for(int i = 0; i<4; i++)
 	{
-		if (trees[start.get_y()][start.get_x()-1] == 1) 
+		int count=0;
+		if (trees[current_searches[i].get_y()][current_searches[i].get_x()] == 1)
 		{
-			i = 0;
-			while (i<new_starts.size())
+			while (count <new_starts.size())
 			{
-				if(new_starts[i] == coord(start.get_x()-1,start.get_y())) break;
-				i++;
+				if(new_starts[count] == current_searches[i]) break;
+				count++;
 			}
-			if (i == new_starts.size())
-			{
-				new_starts.push_back(coord(start.get_x()-1,start.get_y()));
-			}
+			if (count == new_starts.size()) new_starts.push_back(current_searches[i]);
 		}
 	}
-	else 
-	{
-		if (trees[start.get_y()][length-1] == 1)
-		{
-			while (i<new_starts.size())
-			{
-				if(new_starts[i] == coord(length-1,start.get_y())) break;
-				i++;
-			}
-			if (i==new_starts.size())
-			{
-				new_starts.push_back(coord(length-1,start.get_y()));
-			}
-		}
-	}
+}	
 
-	
-	if (start.get_y() != width-1)
-	{
-		if (trees[start.get_y()+1][start.get_x()] == 1) 
-		{
-			i = 0;
-			while (i<new_starts.size())
-			{
-				if(new_starts[i] == coord(start.get_x(),start.get_y()+1)) break;
-				i++;
-			}
-			if (i == new_starts.size())
-			{
-				new_starts.push_back(coord(start.get_x(),start.get_y()+1));
-			}
-		}
-	}
-	else 
-	{
-		if (trees[0][start.get_x()] == 1)
-		{
-			while (i<new_starts.size())
-			{
-				if(new_starts[i] == coord(start.get_x(),0)) break;
-				i++;
-			}
-			if (i==new_starts.size())
-			{
-				new_starts.push_back(coord(start.get_x(),0));
-			}
-		}
-	}
-	
-	if (start.get_y() != 0)
-	{
-		if (trees[start.get_y()-1][start.get_x()] == 1) 
-		{
-			i = 0;
-			while (i<new_starts.size())
-			{
-				if(new_starts[i] == coord(start.get_x(),start.get_y()-1)) break;
-				i++;
-			}
-			if (i == new_starts.size())
-			{
-				new_starts.push_back(coord(start.get_x(),start.get_y()-1));
-			}
-		}
-	}
-	else 
-	{
-		if (trees[width-1][start.get_x()] == 1)
-		{
-			while (i<new_starts.size())
-			{
-				if(new_starts[i] == coord(start.get_x(),width-1)) break;
-				i++;
-			}
-			if (i==new_starts.size())
-			{
-				new_starts.push_back(coord(start.get_x(),width-1));
-			}
-		}
-	}
-}
-	
-
-//TODO: how to incorporate periodic boundaries?
 void cluster_count(vector<int *> matrix,int length, int width)
 {
 	//Generate array of positions of burning trees
