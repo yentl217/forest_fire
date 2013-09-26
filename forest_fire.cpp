@@ -34,28 +34,12 @@ void one_step(vector<int *>& forest_record, vector<int *>& forest_modified, int 
 			{
 				//count the number of neighbouring fires 
 				int neighbour_fires=0;
-				if (x == (length-1)) 
+				coord new_checks[4];
+				new_searches(new_checks,coord(x,y),length,width);
+				for(int i = 0; i<4; i++)
 				{
-					if (forest_record[y][0] == 1) neighbour_fires++; //periodic boundaries along
-				} 
-				else if (forest_record[y][x+1] == 1) neighbour_fires++;
-				if (x == 0)
-				{
-					if (forest_record[y][length-1] ==1) neighbour_fires++; //periodic boundaries along x
+					if (forest_record[new_checks[i].get_y()][new_checks[i].get_x()] == 1) neighbour_fires++;
 				}
-				else if (forest_record[y][x-1] == 1) neighbour_fires++;
-				
-				if (y == (width-1))
-				{ 
-					if (forest_record[0][x] == 1) neighbour_fires++;//periodic boundaries along y
-				}
-				else if (forest_record[y+1][x] == 1) neighbour_fires++;
-				
-				if (y == 0)
-				{
-					if (forest_record[width-1][x] == 1) neighbour_fires++;//periodic boundaries along y
-				}
-				else if (forest_record[y-1][x] == 1) neighbour_fires++;
 				
 				if ( 1.0*rand()/RAND_MAX <= (2-prob_f-pow(prob_b,neighbour_fires))) forest_modified[y][x] = 1;
 				else forest_modified[y][x] = 2;
@@ -86,7 +70,6 @@ int main()
 	matrix_reader(input_file,c,str,forest,gump,forest_temp,gump_temp);
 	
 	//main simulation loop
-	//TODO: make bitmap images...
 	int length = str.length();
 	int width = forest.size();
 	

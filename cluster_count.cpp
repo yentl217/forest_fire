@@ -3,22 +3,14 @@
 
 #include <iostream>
 #include <vector>
-#include <fstream>
 #include "coord.h"
+#include "tools.cpp"
 using namespace std;
 
 void search_loop(vector<coord>& new_starts, coord start,vector<int *>& trees, int length, int width)
 {
-	int x_plus = start.get_x()+1;
-	if (x_plus == length) x_plus = 0;
-	int x_minus = start.get_x()-1;
-	if (x_minus == -1) x_minus = length-1;
-	int y_plus = start.get_y()+1;
-	if (y_plus == width) y_plus = 0;
-	int y_minus = start.get_y()-1;
-	if (y_minus == -1) y_minus = width-1;
-	
-	coord current_searches[4] = {coord(x_plus,start.get_y()),coord(x_minus,start.get_y()),coord(start.get_x(),y_plus),coord(start.get_x(),y_minus)};
+	coord current_searches[4];
+	new_searches(current_searches,start,length,width);
 	
 	for(int i = 0; i<4; i++)
 	{
