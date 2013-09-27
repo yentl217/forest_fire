@@ -29,7 +29,7 @@ void one_step(vector<int *>& forest_record, vector<int *>& forest_modified, int 
 				if (1.0*rand()/RAND_MAX <= prob_g) forest_modified[y][x] = 2;
 				else forest_modified[y][x] = 0;
 			}	
-			//a tree's probability of becoming on fire is 1-(prob_f)+1-(prob_b)^no_of_fiery_neighbours
+			//a tree's probability of becoming on fire is 1-(prob_b)^no_of_fiery_neighbours*prob_f
 			if (forest_record[y][x] == 2)
 			{
 				//count the number of neighbouring fires 
@@ -41,7 +41,7 @@ void one_step(vector<int *>& forest_record, vector<int *>& forest_modified, int 
 					if (forest_record[new_checks[i].get_y()][new_checks[i].get_x()] == 1) neighbour_fires++;
 				}
 				
-				if ( 1.0*rand()/RAND_MAX <= (2-prob_f-pow(prob_b,neighbour_fires))) forest_modified[y][x] = 1;
+				if ( 1.0*rand()/RAND_MAX <= (1-pow(prob_b,neighbour_fires)*prob_f)) forest_modified[y][x] = 1;
 				else forest_modified[y][x] = 2;
 			}		
 			//a burning tree becomes an empty cell
