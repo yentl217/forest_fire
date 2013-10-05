@@ -27,16 +27,14 @@ void search_loop(vector<coord>& new_starts, coord start,vector<int *>& trees, in
 	}
 }	
 
-void cluster_count(vector<int *> matrix,int length, int width,vector<coord >& positions)
+void cluster_count(vector<int *> matrix,int length, int width,vector<coord >& positions, ofstream& clusters)
 {
 	while(positions.size() != 0)
 	{
 		//vector containing positions around which one searches to expand the cluster
 		vector<coord> new_starts;
-		//vector containing positions already identified as part of the cluster
-		vector<coord> cluster;
 		
-		cluster.push_back(positions[0]);
+		int cluster_size = 1;
 		search_loop(new_starts,positions[0],matrix,length,width);
 		
 		//set searched position to 4 to prevent research and mix up with other fires
@@ -49,7 +47,7 @@ void cluster_count(vector<int *> matrix,int length, int width,vector<coord >& po
 		{
 			search_loop(new_starts,new_starts[0],matrix,length,width);
 			matrix[new_starts[0].get_y()][new_starts[0].get_x()] = 4;
-			cluster.push_back(new_starts[0]);
+			cluster_size++;
 			//erase from positions matrix
 			for (int i =0; i<positions.size();i++)
 			{
@@ -57,11 +55,8 @@ void cluster_count(vector<int *> matrix,int length, int width,vector<coord >& po
 			}
 			new_starts.erase(new_starts.begin());		
 		}
-		cout << cluster.size() << endl;
+		clusters << cluster_size << endl;
 	}				
 		
 }				
-#endif
-
-
-	
+#endif	

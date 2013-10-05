@@ -13,17 +13,19 @@ using namespace std;
 
 //Initialising
 //TODO: Make all these command line options
-int num_steps = 2000;
-double prob_g = 1.0/16000; // probability of tree growing
-//TODO: so close to 1 possibly the probability may be distorted?
-double prob_f = 1.0-prob_g/16000.0; //probability of tree NOT being struck by lightening
+int num_steps = 4;
+double prob_g = 0.0;//1.0/16000; // probability of tree growing
+//TODO: so close to 1 possibly the probability may be distorted
+double prob_f = 1.0;//1.0-prob_g/16000.0; //probability of tree NOT being struck by lightening
 double prob_b = 0.0; //probability of a tree NOT setting a neighbour on fire if it is burning	
+
+ofstream clusters("cluster_register");
 
 int main()
 {
 	srand (time(NULL)); //Initialise random seed
 	
-	/*//Set up reading in matrix from input file TODO:Make this an argument option
+	//Set up reading in matrix from input file TODO:Make this an argument option
 	ifstream input_file("input"); //TODO check file has opened without error
 	string str;
 	char c = 'h';
@@ -37,11 +39,11 @@ int main()
 	matrix_reader(input_file,c,str,forest,forest_temp);
 	
 	int length = str.length();
-	int width = forest.size();*/
+	int width = forest.size();
 	
 	//generate start forests (TODO: make this an argument option)
 	
-	int length=16438;
+	/*int length=16438;
 	int width=16438;
 	vector<int *> forest;
 	int *forest_temp;
@@ -59,7 +61,7 @@ int main()
 			forest_temp[i] = 0;
 		}
 		forest.push_back(forest_temp);
-	}
+	}*/
 	
 	vector<coord> list_fires;
 	vector<coord> list_trees;
@@ -100,7 +102,7 @@ int main()
 				else if (forest[y][x] == 1) list_fires.push_back(coord(x,y));
 			}
 		}
-		cluster_count(forest,length,width,list_fires);
+		cluster_count(forest,length,width,list_fires,clusters);
 		for (int y=0; y<width; y++)
 		{
 			for (int x=0; x<length; x++)
@@ -120,14 +122,14 @@ int main()
 	}
 	
 	//save state of simulation
-	ofstream output_file("output");
+	ofstream sim("simulation_state");
 	for(int j=0; j<width; j++)
 	{
 		for(int i=0; i<length;i++)
 		{
-			output_file << forest[j][i];
+			sim << forest[j][i];
 		}
-		output_file << endl;
+		sim << endl;
 	}
 	
 	//deallocate memory taken up by forest
