@@ -27,20 +27,8 @@ void search_loop(vector<coord>& new_starts, coord start,vector<int *>& trees, in
 	}
 }	
 
-void cluster_count(vector<int *> matrix,int length, int width)
+void cluster_count(vector<int *> matrix,int length, int width,vector<coord >& positions)
 {
-	//Generate array of positions of burning trees
-	vector<coord> positions;
-	for (int y=0;y<width;y++)
-	{
-		for (int x = 0; x<length; x++)
-		{
-			if (matrix[y][x] == 1)
-			{
-				positions.push_back(coord(x,y));
-			}
-		}
-	}
 	while(positions.size() != 0)
 	{
 		//vector containing positions around which one searches to expand the cluster
