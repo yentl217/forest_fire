@@ -12,8 +12,10 @@
 using namespace std;
 
 //Initialising
+//TODO: Make all these command line options
 int num_steps = 2000;
 double prob_g = 1.0/16000; // probability of tree growing
+//TODO: so close to 1 possibly the probability may be distorted?
 double prob_f = 1.0-prob_g/16000.0; //probability of tree NOT being struck by lightening
 double prob_b = 0.0; //probability of a tree NOT setting a neighbour on fire if it is burning	
 
@@ -21,7 +23,7 @@ int main()
 {
 	srand (time(NULL)); //Initialise random seed
 	
-	/*//Set up reading in matrix from input file
+	/*//Set up reading in matrix from input file TODO:Make this an argument option
 	ifstream input_file("input"); //TODO check file has opened without error
 	string str;
 	char c = 'h';
@@ -37,7 +39,7 @@ int main()
 	int length = str.length();
 	int width = forest.size();*/
 	
-	//generate start forests (make this an argument option)
+	//generate start forests (TODO: make this an argument option)
 	
 	int length=16438;
 	int width=16438;
@@ -115,6 +117,17 @@ int main()
 			}
 		}
 		cout << i << endl;
+	}
+	
+	//save state of simulation
+	ofstream output_file("output");
+	for(int j=0; j<width; j++)
+	{
+		for(int i=0; i<length;i++)
+		{
+			output_file << forest[j][i];
+		}
+		output_file << endl;
 	}
 	
 	//deallocate memory taken up by forest
