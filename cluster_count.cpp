@@ -51,8 +51,8 @@ void cluster_count(vector<int *> matrix,int length, int width)
 		cluster.push_back(positions[0]);
 		search_loop(new_starts,positions[0],matrix,length,width);
 		
-		//set searched position to 0 to prevent research.
-		matrix[positions[0].get_y()][positions[0].get_x()] = 0;
+		//set searched position to 4 to prevent research and mix up with other fires
+		matrix[positions[0].get_y()][positions[0].get_x()] = 4;
 		//erase from positions matrix to prevent re-search
 		positions.erase(positions.begin());
 		
@@ -60,7 +60,7 @@ void cluster_count(vector<int *> matrix,int length, int width)
 		while(new_starts.size() !=0)
 		{
 			search_loop(new_starts,new_starts[0],matrix,length,width);
-			matrix[new_starts[0].get_y()][new_starts[0].get_x()] = 0;
+			matrix[new_starts[0].get_y()][new_starts[0].get_x()] = 4;
 			cluster.push_back(new_starts[0]);
 			//erase from positions matrix
 			for (int i =0; i<positions.size();i++)
