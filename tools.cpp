@@ -9,10 +9,13 @@ void new_searches(coord* coords_to_search, coord central_coord, int length, int 
 {
 	int x_plus = central_coord.get_x()+1;
 	if (x_plus == length) x_plus = 0;
+	
 	int x_minus = central_coord.get_x()-1;
 	if (x_minus == -1) x_minus = length-1;
+	
 	int y_plus = central_coord.get_y()+1;
 	if (y_plus == width) y_plus = 0;
+	
 	int y_minus = central_coord.get_y()-1;
 	if (y_minus == -1) y_minus = width-1;
 	
