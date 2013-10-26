@@ -32,14 +32,14 @@ void fast_count(int **forest, int length, int width, coord init,vector<coord> &c
 	vector<coord> new_starts;
 	
 	cluster.push_back(init);
-	forest[init.get_x()][init.get_y()] = 1;
+	forest[init.get_y()][init.get_x()] = 1;
 	
 	search_loop(new_starts,init,forest,length,width);
 	while(new_starts.size() !=0 )
 	{
 		search_loop(new_starts,new_starts[0],forest,length,width);
-		forest[new_starts[0].get_y()][new_starts[0].get_x()] = 1;
 		cluster.push_back(new_starts[0]);
+		forest[new_starts[0].get_y()][new_starts[0].get_x()] = 1;
 		new_starts.erase(new_starts.begin());
 	}
 }

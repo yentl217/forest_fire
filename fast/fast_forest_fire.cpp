@@ -9,10 +9,13 @@
 using namespace std;
 
 //TODO: make these command line arguments!
-double p_over_f = 16000;
-const int length = 16384;
-const int width = 16384;
-int num_steps = 200000;
+double p_over_f = 1000;
+const int length = 100;
+const int width = 100;
+int num_steps = 10000;
+
+//keep track of number of trees planted
+int num_trees = 0;
 
 ofstream outputfile("output");
 
@@ -57,16 +60,23 @@ int main()
 			{
 				int rand_grow_x = rand() % length;
 				int rand_grow_y = rand() % width;
-				if (forest[rand_grow_y][rand_grow_x] == 0) forest[rand_grow_y][rand_grow_x] = 2;
+				if (forest[rand_grow_y][rand_grow_x] == 0) 
+				{
+					forest[rand_grow_y][rand_grow_x] = 2;
+					num_trees++;
+				}
 			}
+			
 		}
 		
 		//Otherwise, if a tree is found, set it on fire and ignite the whole cluster; Cluster size is counted.
 		else if (forest[rand_y][rand_x] == 2)
 		{
 			fast_count(forest,length,width,coord(rand_x,rand_y),cluster);
+			num_trees -= cluster.size();
+			//outputfile << cluster.size() << endl;
 		}
-		if (cluster.size() > 0) outputfile << cluster.size() << endl;
+		outputfile << double(num_trees)/(length*width) << endl;
 	}
 	
 	//deallocate memory for forest
