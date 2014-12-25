@@ -9,18 +9,19 @@
 using namespace std;
 
 //TODO: make these command line arguments!
-double p_over_f = 1000;
-const int length = 100;
-const int width = 100;
-int num_steps = 10000;
 
 //keep track of number of trees planted
 int num_trees = 0;
 
-ofstream outputfile("output");
-
-int main()
+int main(int argc, char * const argv[])
 {
+	double p_over_f = 1000;
+	const int length = atoi(argv[1]);
+	const int width = atoi(argv[2]);
+	int num_steps = atoi(argv[3]);
+	
+	ofstream outputfile(argv[4]);
+	
 	int** forest;
 	forest = new int *[width];
 	for(int i =0; i<length; i++){ forest[i] = new int[length]; }
