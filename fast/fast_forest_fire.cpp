@@ -41,7 +41,7 @@ int main(int argc, char * const argv[])
 	//Main simulation loop
 	for(int step =0; step<num_steps; step++)
 	{
-		cout << "On step" << step << endl;
+		cout << "On step " << step+1 << endl;
 		
 		//Burn down all the burning trees
 		while(cluster.size() != 0)
